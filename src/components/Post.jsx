@@ -3,8 +3,13 @@ import ptBR from "date-fns/locale/pt-BR";
 import { Comment } from "./Comment.jsx";
 import { Avatar}  from "./Avatar.jsx";
 import styles from "./Post.module.css";
+import {useState} from "react";
 
 export function Post({ author, content, publishedAt}) {
+    const [comments, setComments] = useState([
+        'Post muito bacana!',
+    ]);
+
     const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'ás' H:mm'h'", {
         locale: ptBR
     });
@@ -13,6 +18,14 @@ export function Post({ author, content, publishedAt}) {
         locale: ptBR,
         addSuffix: true
     });
+
+    function handleCreateNewComment() {
+        event.preventDefault();
+        const newCommentText = event.target.comment.value;
+        setComments([...comments, newCommentText]);
+
+        event.target.comment.value = '';
+    }
 
     return(
         <article className={styles.post}>
@@ -44,17 +57,21 @@ export function Post({ author, content, publishedAt}) {
                 }
             </div>
 
-            <form className={styles.commentForm}>
+            <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
                 <strong>Deixe seu feedback</strong>
-                <textarea placeholder="Deixe um comentário"></textarea>
+                <textarea name="comment" placeholder="Deixe um comentário"></textarea>
                 <footer>
                     <button type="submit">Publicar</button>
                 </footer>
             </form>
             <div className={styles.commentList}>
-                <Comment />
-                <Comment />
-                <Comment />
+                {
+                    comments.map(comment => {
+                        return (
+                            <Comment content={comment}/>
+                        );
+                    })
+                }
             </div>
         </article>
     );
