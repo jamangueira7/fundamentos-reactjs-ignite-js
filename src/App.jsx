@@ -25,7 +25,7 @@ const posts = [
         author: {
             avatarUrl: 'https://github.com/leticea.png',
             name: 'Letícia',
-            role: 'Web Developer'
+            role: 'FrontEnd'
         },
         content: [
             { type: 'paragraph', content: 'Fala galeraa 👋'},
@@ -35,7 +35,7 @@ const posts = [
         publishedAt: new Date('2023-02-01 10:00:00'),
     },
 ];
-function App({ author, content, publishedAt}) {
+function App() {
 
   return (
       <div>
