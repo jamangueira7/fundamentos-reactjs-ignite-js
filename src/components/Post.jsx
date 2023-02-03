@@ -10,6 +10,8 @@ export function Post({ author, content, publishedAt}) {
         'Post muito bacana!',
     ]);
 
+    const [newCommentText, setNewCommentText] = useState('');
+
     const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'ás' H:mm'h'", {
         locale: ptBR
     });
@@ -19,12 +21,14 @@ export function Post({ author, content, publishedAt}) {
         addSuffix: true
     });
 
+    function handleNewCommentChange() {
+        setNewCommentText(event.target.value);
+    }
+
     function handleCreateNewComment() {
         event.preventDefault();
-        const newCommentText = event.target.comment.value;
         setComments([...comments, newCommentText]);
-
-        event.target.comment.value = '';
+        setNewCommentText('');
     }
 
     return(
@@ -59,7 +63,12 @@ export function Post({ author, content, publishedAt}) {
 
             <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
                 <strong>Deixe seu feedback</strong>
-                <textarea name="comment" placeholder="Deixe um comentário"></textarea>
+                <textarea
+                    name="comment"
+                    placeholder="Deixe um comentário"
+                    onChange={handleNewCommentChange}
+                    value={newCommentText}
+                />
                 <footer>
                     <button type="submit">Publicar</button>
                 </footer>
