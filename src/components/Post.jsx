@@ -31,6 +31,10 @@ export function Post({ author, content, publishedAt}) {
         setNewCommentText('');
     }
 
+    function deleteComment(comment) {
+
+    }
+
     return(
         <article className={styles.post}>
             <header>
@@ -53,9 +57,9 @@ export function Post({ author, content, publishedAt}) {
                 {
                     content.map(line => {
                         if(line.type === 'paragraph') {
-                            return <p>{line.content}</p>
+                            return <p key={line.content}>{line.content}</p>
                         } else if(line.type === 'link'){
-                            return <p><a href="#">{line.content}</a></p>
+                            return <p key={line.content}><a href="#">{line.content}</a></p>
                         }
                     })
                 }
@@ -77,7 +81,11 @@ export function Post({ author, content, publishedAt}) {
                 {
                     comments.map(comment => {
                         return (
-                            <Comment content={comment}/>
+                            <Comment
+                                key={comment}
+                                content={comment}
+                                onDeleteComment={deleteComment}
+                            />
                         );
                     })
                 }
